@@ -1,0 +1,21 @@
+.navigation-bar{
+	height: 80px;
+	background-color: #284741;
+	position: fixed;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	float: left;
+	.navigation-bar-left{
+		float: left;
+		width: 50%;
+	}
+	.navigation-bar-right{
+		float: left;
+		width: 50%;
+	}
+}
+
+.navbar{
+	background-color: #284741;	
+}

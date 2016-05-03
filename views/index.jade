@@ -1,5 +1,60 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	//- .navigation-bar
+	//- 	.navigation-bar-left
+	//- 		a(href="/")
+	//- 			img(src="images/dc_roasters_200x124_lt.png")
+	//- 	.navigation-bar-right
+	//- 		button.btn.btn-primary(type="submit") Log In
+	//- 		button.btn.btn-primary(type="submit") Register
+	.container-fluid
+		.row
+			.col-sm-12
+				h1 A better way to grind
+				h4 Freshly roasted coffee beans delivered weekly to your door.
+		.row
+			.col-sm-12.how-it-works.text-center
+				p How It Works		
+			.col-sm-12.arrow-holder
+				.arrow-down
+		.row
+			#step-one.col-sm-12.steps.text-center
+				h3.title 1. We get the coffee
+				p Each bean is hand selected
+				p Each bean is measured for precise size
+				p Each bean is tenderly caressed
+			.col-sm-12.arrow-holder
+				.arrow-down
+		.row
+			#step-two.col-sm-12.steps.text-center
+				h3 We pick up the coffee
+				p We place the coffee in bags
+				p Each bag is transported in climate-controlled trucks
+				p Every six hours the bags are rotated to keep the beans uniform and delicious
+			.col-sm-12.arrow-holder
+				.arrow-down
+		.row
+			#step-three.col-sm-12.steps.text-center
+				h3 3. You drink teh coffee
+				p The coffee takes delicious
+				p You want more coffee!!
+			.col-sm-12.arrow-holder
+				.arrow-down
+		.row
+			#get-started.col-sm-12
+				a(href="/register")
+					button.btn.btn-primary(type="button") Get Started
+
+
+
+
+
+
+
+
+
+
+
+
+
