@@ -5,16 +5,7 @@ html
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body
-		nav.navbar.navbar-default.navbar-fixed-top
-			.container-fluid
-				.col-sm-6
-					a(href="/")
-						img(src="images/dc_roasters_200x124_lt.png")
-				.col-sm-6
-					a(href="/login")
-						button.btn.btn-primary(type="submit") Log In
-					a(href="/register")
-						button.btn.btn-primary(type="submit") Register
+		include header
 		block content
-		.footer.col-sm-12.text-center
-			p &copy 2015 DigitalCrafts Brews
+			p This is a content default
+		include footer
