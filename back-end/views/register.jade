@@ -1,0 +1,34 @@
+extends layout
+
+block content
+	.container-fluid
+		.row
+			.col-sm-12.text-center
+				h1 Registration
+				h4 Pick a username and password
+		.row
+			if(failure)
+				h2 You must enter the same password in both fields.
+			.col-sm-6.registration-wrapper.text-center
+				form(role="form", action="/register", method="post", id="registration-form", name="registration")
+					.form-group
+						label Username:
+						input.form-control(type="text", name="username", placeholder="John Smith", minlength="5")
+					.form-group
+						label Password:
+						input.form-control(type="password", name="password", placeholder="6 Character Minimum", minlength="6")
+					.form-group
+						input.form-control(type="password", name="password2", placeholder="Confirm Password", minlength="6")
+					.form-group
+						label Email:
+						input.form-control(type="email", name="email", placeholder="example@example.com")
+					.button-holder
+						button.btn.btn-success(type="submit") Register
+
+
+
+
+
+
+
+

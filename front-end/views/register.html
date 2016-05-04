@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12.text-center">
+        <h1>Registration</h1>
+        <h4>Pick a username and password</h4>
+      </div>
+    </div>
+    <div class="row">
+<!--       if(failure)
+        h2 You must enter the same password in both fields. -->
+      <div class="col-sm-6.registration-wrapper.text-center">
+        <form role="form" action="/register" method="post" id="registration-form" name="registration">
+          <div class="form-group">
+            <label>Username:</label>
+            <input class="form-control" type="text" name="username" placeholder="John Smith" minlength="5">
+          </div>
+          <div class="form-group">
+            <label Password:</label>
+            <input class="form-control" type="password", name="password", placeholder="6 Character Minimum" minlength="6">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password", name="password2", placeholder="Confirm Password" minlength="6">
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input class="form-control" type="email" name="email" placeholder="example@example.com">
+          </div>
+          <div class="button-holder">
+            <button class="btn btn-success" type="submit"> Register</button>
+          </div>
+</div>

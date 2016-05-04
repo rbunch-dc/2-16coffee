@@ -1,0 +1,30 @@
+/* line 1, ../../compass/sass/_base.scss */
+img {
+  max-width: 100%;
+}
+
+/* line 1, ../../compass/sass/_home.scss */
+.navigation-bar {
+  height: 80px;
+  background-color: #284741;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  float: left;
+}
+/* line 9, ../../compass/sass/_home.scss */
+.navigation-bar .navigation-bar-left {
+  float: left;
+  width: 50%;
+}
+/* line 13, ../../compass/sass/_home.scss */
+.navigation-bar .navigation-bar-right {
+  float: left;
+  width: 50%;
+}
+
+/* line 19, ../../compass/sass/_home.scss */
+.navbar {
+  background-color: #284741;
+}
