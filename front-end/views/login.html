@@ -1,26 +1,32 @@
-<div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12.text-center">
-        <h1>Registration</h1>
-        <h4>Pick a username and password</h4>
-      </div>
-    </div>
-    <div class="row">
-<!--       if(failure)
-        h2 You must enter the same password in both fields. -->
-      <div class="col-sm-6.registration-wrapper.text-center">
-        <form role="form" ng-submit="loginForm()" id="registration-form" name="registration">
-          <h3 class="warning">{{errorMessage}}</h3>
-          <h3 class="warninåg">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3><h3 class="warning">{{errorMessage}}</h3>
-          <div class="form-group">
-            <label>Username:</label>
-            <input class="form-control" type="text" ng-model="username" placeholder="John Smith" minlength="5">
-          </div>
-          <div class="form-group">
-            <label Password:</label>
-            <input class="form-control" type="password", ng-model="password", placeholder="6 Character Minimum" minlength="6">
-          </div>
-          <div class="button-holder">
-            <button class="btn btn-success" type="submit"> Register</button>
-          </div>
+<div class="container" ng-controller="loginController">
+	<div class="row">
+		<div class="col-sm-12">
+			<h1>Log In</h1>
+			<h5>Enter your username and password below</h5>
+		</div>
+	</div>
+	<div class="row">
+		<h5 class="error-message text-center">{{errorMessage}}</h5>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-6 text-center">
+			<form ng-submit="loginForm()" class="form-horizontal">
+				<div class="form-group">
+					<label for="unField" class="col-sm-4 control-label">Username</label>
+					<div class="col-sm-4">
+						<input type="text" id="unField" ng-model="username" placeholder="Your username" minlength="5" maxlength="20" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="pwField" class="col-sm-4 control-label">Password</label>
+					<div class="col-sm-4">
+						<input type="password" id="pwField" ng-model="password" placeholder="Your password" minlength="6" maxlength="20" class="form-control">
+					</div>
+				</div>
+				<div class="button-holder">
+					<button type="submit" class="btn btn-success">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
