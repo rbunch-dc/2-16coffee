@@ -158,13 +158,32 @@ coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies)
 
 	$scope.optionsForm = function(formID){
 
+		//Get the appropriate values based on what the user selected
+		//Set them up for our AJAX call
+		if(formID == 1){
+			var selectedGrind = $scope.grindTypeOne;
+			var selectedQuantity = 2;
+			var selectedFrequency = 'weekly';
+		}else if(formID == 2){
+			var selectedGrind = $scope.grindTypeTwo;
+			var selectedQuantity = 8;
+			var selectedFrequency = 'monthly';
+		}else if(formID == 3){
+			var selectedGrind = $scope.grindTypeThree;
+			var selectedQuantity = $scope.quantity;
+			var selectedFrequency = $scope.frequency;
+		}		
 		$http.post(apiUrl + '/options', {
-			quantity: $scope.quantity,
+			quantity: selectedQuantity,
+			grind: selectedGrind,
+			frequency: selectedFrequency,
 			token: $cookies.get('token')
 		}).then(function successCallback(response){
-			console.log(respnose.data);
+			if(response.data.success == 'updated'){
+				$location.path('/delivery');
+			}
 		}, function errorCallback(response){
-			console.log("ERROR, Mr. Robinson");
+			console.log("ERROR.");
 		});
 
 		// $http({

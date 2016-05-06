@@ -78,24 +78,24 @@ router.post('/login', function(req, res, next){
 });
 
 router.post('/options', function(req, res, next){
-	Account.findOneAndUpdate(
-		{token: req.body.token}, //Is the which. 
+	Account.update(
+		{token: req.body.token}, //which doc to update
 		{
-			quantity: req.body.quantity, 
-			frequency: req.body.frequency
-		}, //Is what to update
-		{upsert: true},
-		function(err, account){
-			if(doc == null){
-				//we found no record that matched this token.
-				//Send some JSON back to angular and act accodingly.
+			quantity: req.body.quantity, // what to update
+			frequency: req.body.frequency.option, // what to update -- include option because ng-option packags it thus
+			grind: req.body.grind.option // what to update
+		},
+		{multi:true}, //update multiple or not
+		function(err, numberAffected){  
+			console.log(numberAffected);
+			if(numberAffected.ok == 1){
+				//we succeeded in updating.
+				res.json({success: "updated"});
 			}else{
-				//we got a record and we updated it.
-				account.save();
-				res.json({'success': "update"});
+				res.json({failure: "failedUpdate"});
 			}
 		}
-	)
+	);
 });
 
 module.exports = router;
