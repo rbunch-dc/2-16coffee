@@ -185,64 +185,47 @@ coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies)
 		}, function errorCallback(response){
 			console.log("ERROR.");
 		});
-
-		// $http({
-		// 	method: 'POST',
-		// 	url: apiUrl + '/options',
-		// 	data: {
-		// 		token: $cookies.get('token')
-		// 	}
-		// }).then(function successCallback(response){
-		// 	if (response.data.failure == 'noToken'){
-		// 		// invalid token, so redirect to login page
-		// 		$location.path('/login');
-		// 	} else if (success = 'tokenMatch') {
-		// 		// put the options info into cookies for temporary storage
-		// 		$cookies.put('frequency', $scope.frequency);
-		// 		$cookies.put('quantity', $scope.quantity);
-		// 		$cookies.put('grindType', $scope.grindType);
-
-		// 		//redirect to delivery page
-		// 		$location.path('/delivery');
-		// 	}
-		// }, function errorCallback(status){
-		// 	console.log(status);
-		// });
 	};
 });
 
 
 coffeeApp.controller('deliveryCtrl', function($scope, $http, $location, $cookies){
 
+	$http.get(apiUrl + '/getUserData?token='+$cookies.get('token'),{
+	}).then(function successCallback(response){
+		console.log(response);
+		if(response.data.failure == 'badToken'){
+			//User needs to log in
+			$location.path('/register?failure=badToken');
+		}else{
+			$scope.userOptions = response.data;
+		}
+	}, function errorCallback(response){
+		console.log(response.status);
+	});
+
 	$scope.states = usStates;
 
 	$scope.deliveryForm = function(){
-			$http({
-			method: 'POST',
-			url: apiUrl + '/delivery',
-			data: {
-				token: $cookies.get('token')
-			}
-		}).then(function successCallback(response){
-			if (response.data.failure == 'noToken'){
-					// invalid token, so redirect to login page
-					$location.path('/login');
-				} else if (success = 'tokenMatch') {
-					// put the delivery info into cookies for temporary storage
-					$cookies.put('fullname', $scope.usrFullname);
-					$cookies.put('addressOne', $scope.addressOne);
-					$cookies.put('addressTwo', $scope.addressTwo);
-					$cookies.put('city', $scope.usrCity);
-					$cookies.put('state', $scope.usrState);
-					$cookies.put('zip', $scope.usrZip);
-					$cookies.put('deliveryDate', $scope.deliveryDate);
 
-					//redirect to checkout page
-					$location.path('/checkout');
-				}
-		}, function errorCallback(status){
-			console.log(status);
+		$http.post(apiUrl + '/delivery', {
+			fullname: $scope.fullname,
+			addressOne: $scope.addressOne,
+			addressTwo: $scope.addressTwo,
+			usrCity: $scope.usrCity,
+			usrState: $scope.usrState,
+			usrZip: $scope.usrZip,
+			deliveryDate: $scope.deliveryDate,
+			token: $cookies.get('token')
+		}).then(function successCallback(response){
+			console.log(response.data.success);
+			if(response.data.success == 'updated'){
+				$location.path('/checkout');
+			}
+		}, function errorCallback(response){
+			console.log("ERROR.");
 		});
+
 	};
 });
 

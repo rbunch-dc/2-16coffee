@@ -98,6 +98,32 @@ router.post('/options', function(req, res, next){
 	);
 });
 
+router.post('/delivery', function(req, res, next){
+	// console.log(req.body.fullname);
+	Account.update(
+		{token: req.body.token}, //which doc to update	
+		{
+			fullname: req.body.fullname, // what to update
+			address: req.body.addressOne,
+			addres2: req.body.addressTwo,
+			city: req.body.usrCity,
+			state: req.body.usrState,
+			zip: req.body.usrZip,
+			deliveryDate: req.body.deliveryDate
+		},
+		{multi:true}, //update multiple or not
+		function(err, numberAffected){  
+			console.log(numberAffected);
+			if(numberAffected.ok == 1){
+				//we succeeded in updating.
+				res.json({success: "updated"});
+			}else{
+				res.json({failure: "failedUpdate"});
+			}
+		}
+	);
+})
+
 module.exports = router;
 
 

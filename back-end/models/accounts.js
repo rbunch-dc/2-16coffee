@@ -9,7 +9,7 @@ var Account = new Schema({
 	frequency: String,
 	quantity: String,
 	grind: String,
-	name: String,
+	fullname: String,
 	address: String,
 	address2: String,
 	city: String,
