@@ -40,6 +40,11 @@ coffeeApp.controller('mainController', function($scope){
 
 coffeeApp.controller('regController', function($scope, $http, $location, $cookies){
 
+	//the location service has access to the query string. Pull out the property and put the value in the errorMessage
+	if($location.search().failure == "badToken"){
+		$scope.errorMessage = "You must login to access the requested page.";
+	}
+
 	$scope.registerForm = function(){
 		$http({
 			method: 'POST',
@@ -111,7 +116,7 @@ coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies)
 		console.log(response);
 		if(response.data.failure == 'badToken'){
 			//User needs to log in
-			$location.path('/register');
+			$location.path('/register?failure=badToken');
 		}else{
 			$scope.userOptions = response.data;
 		}
