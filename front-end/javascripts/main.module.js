@@ -232,18 +232,18 @@ coffeeApp.controller('deliveryCtrl', function($scope, $http, $location, $cookies
 
 coffeeApp.controller('checkoutCtrl', function($scope, $http, $location, $cookies){
 
-	$scope.frequency = $cookies.get('frequency');
-	$scope.quantity = $cookies.get('quantity');
-	$scope.grindType = $cookies.get('grindType');
-	$scope.fullname = $cookies.get('fullname');
-	$scope.addressOne = $cookies.get('addressOne');
-	$scope.addressTwo = $cookies.get('addressTwo');
-	$scope.city = $cookies.get('city');
-	$scope.state = $cookies.get('state');
-	$scope.zip = $cookies.get('zip');
-	$scope.deliveryDate = $cookies.get('deliveryDate');
-	$scope.total = Number($scope.quantity) * 20.00;
-
+	$http.get(apiUrl + '/getUserData?token='+$cookies.get('token'),{
+	}).then(function successCallback(response){
+		console.log(response);
+		if(response.data.failure == 'badToken'){
+			//User needs to log in
+			$location.path('/register?failure=badToken');
+		}else{
+			$scope.userOptions = response.data;
+		}
+	}, function errorCallback(response){
+		console.log(response.status);
+	});
 
 	$scope.checkoutForm = function(){
 			$http({
