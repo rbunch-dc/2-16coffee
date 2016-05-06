@@ -80,7 +80,10 @@ router.post('/login', function(req, res, next){
 router.post('/options', function(req, res, next){
 	Account.findOneAndUpdate(
 		{token: req.body.token}, //Is the which. 
-		{quantity: req.body.quantity}, //Is what to update
+		{
+			quantity: req.body.quantity, 
+			frequency: req.body.frequency
+		}, //Is what to update
 		{upsert: true},
 		function(err, account){
 			if(doc == null){

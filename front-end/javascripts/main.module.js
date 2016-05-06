@@ -12,6 +12,9 @@ coffeeApp.config(function($routeProvider){
 	}).when('/login', {
 		templateUrl: 'views/login.html',
 		controller: 'loginController'
+	}).when('/logout', {
+		templateUrl: 'views/logout.html',
+		controller: 'logoutController'
 	}).when('/options', {
 		templateUrl: 'views/options.html',
 		controller: 'optionsCtrl'
@@ -96,7 +99,10 @@ coffeeApp.controller('loginController', function($scope, $http, $location, $cook
 		});
 	};
 });
-
+coffeeApp.controller('logoutController', function($scope, $cookies){
+	$cookies.remove("token");
+	$cookies.remove("username");
+});
 
 coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies){
 
