@@ -75,6 +75,8 @@ coffeeApp.controller('regController', function($scope, $http, $location, $cookie
 
 coffeeApp.controller('loginController', function($scope, $http, $location, $cookies){
 	
+
+
 	$scope.loginForm = function(){
 		$http({
 			method: 'POST',
@@ -88,7 +90,7 @@ coffeeApp.controller('loginController', function($scope, $http, $location, $cook
 				$scope.errorMessage = 'The password entered does not match our records.';
 			} else if (response.data.failure == 'noUser'){
 				$scope.errorMessage = 'The username entered was not found.';
-			} else if (response.data.success == 'match'){
+			} else if (response.data.success == 'found'){
 				// store the token and username inside cookies
 				// potential security issue here
 				$cookies.put('token', response.data.token);
