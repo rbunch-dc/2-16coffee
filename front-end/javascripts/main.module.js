@@ -1,7 +1,6 @@
 var coffeeApp = angular.module('coffeeApp', ['ngRoute', 'ngCookies']);
 var apiUrl = 'http://localhost:3000';
 
-
 coffeeApp.config(function($routeProvider){
 	$routeProvider.when('/', {
 		templateUrl: 'views/main.html',
@@ -39,43 +38,56 @@ coffeeApp.controller('mainController', function($scope){
 
 
 coffeeApp.controller('regController', function($scope, $http, $location, $cookies){
+	//console.log($location.search());
 
-	//the location service has access to the query string. Pull out the property and put the value in the errorMessage
+	//the location service has access to the query string. 
+	//Pull out the property and put the value in the errorMessage
 	if($location.search().failure == "badToken"){
 		$scope.errorMessage = "You must login to access the requested page.";
 	}
 
+
 	$scope.registerForm = function(){
-		$http({
-			method: 'POST',
-			url: apiUrl + '/register',
-			data: {
-				username: $scope.username,
-				password: $scope.password,
-				password2: $scope.password2,
-				email: $scope.email
-			}
-		}).then(function successCallback(response){
-			if(response.data.failure == 'passwordMatch'){
-				$scope.errorMessage = 'The passwords do not match.';
-			} else if (response.data.success == 'added'){
-				// store the token and username inside cookies
-				// potential security issue here
-				$cookies.put('token', response.data.token);
-				$cookies.put('username', $scope.username);
-				//redirect to options page
-				$location.path('/options');
-			}
-		}, function errorCallback(status){
-			console.log(status);
-		});
+		if($scope.password != $scope.password2){
+			$scope.errorMessage = "Your passwords do not match.";
+		}else{
+			$http({
+				method: 'POST',
+				url: apiUrl + '/register',
+				data: {
+					username: $scope.username,
+					password: $scope.password,
+					password2: $scope.password2,
+					email: $scope.email
+				}
+			}).then(function successCallback(response){
+				if(response.data.failure == 'passwordMatch'){
+					$scope.errorMessage = 'The passwords do not match.';
+				} else if (response.data.success == 'added'){
+					// store the token and username inside cookies
+					// potential security issue here
+					$cookies.put('token', response.data.token);
+					$cookies.put('username', $scope.username);
+					//redirect to options page
+					$location.path('/options');
+				}
+			}, function errorCallback(status){
+				console.log(status);
+			});
+		}
 	};
 });
 
 
 coffeeApp.controller('loginController', function($scope, $http, $location, $cookies){
-	
 
+	if(($location.path() == '/login')){
+		if($cookies.get('token')){
+			//you should not be on the login page because you are logged in.
+			//I'm sending you to the options page. Don't try and come back.
+			$location.path('/options');
+		}
+	}
 
 	$scope.loginForm = function(){
 		$http({
@@ -95,9 +107,7 @@ coffeeApp.controller('loginController', function($scope, $http, $location, $cook
 				// potential security issue here
 				$cookies.put('token', response.data.token);
 				$cookies.put('username', $scope.username);
-
 				$scope.loggedIn = true;
-				
 				//redirect to options page
 				$location.path('/options');
 			}
@@ -113,18 +123,18 @@ coffeeApp.controller('logoutController', function($scope, $cookies){
 
 coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies){
 
-	$http.get(apiUrl + '/getUserData?token='+$cookies.get('token'),{
-	}).then(function successCallback(response){
-		console.log(response);
-		if(response.data.failure == 'badToken'){
-			//User needs to log in
-			$location.path('/register?failure=badToken');
-		}else{
-			$scope.userOptions = response.data;
-		}
-	}, function errorCallback(response){
-		console.log(response.status);
-	});
+		$http.get(apiUrl + '/getUserData?token='+$cookies.get('token'),{
+		}).then(function successCallback(response){
+			console.log(response);
+			if(response.data.failure == 'badToken'){
+				//User needs to log in
+				$location.path('/register?failure=badToken');
+			}else{
+				$scope.userOptions = response.data;
+			}
+		}, function errorCallback(response){
+			console.log(response.status);
+		});
 
 	$scope.frequencies = [
 		{ 
@@ -181,6 +191,8 @@ coffeeApp.controller('optionsCtrl', function($scope, $http, $location, $cookies)
 		}).then(function successCallback(response){
 			if(response.data.success == 'updated'){
 				$location.path('/delivery');
+			}else{
+				$scope.errorMessage = 'Please contact support.';
 			}
 		}, function errorCallback(response){
 			console.log("ERROR.");

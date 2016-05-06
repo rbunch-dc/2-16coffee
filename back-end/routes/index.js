@@ -14,7 +14,7 @@ router.get('/getUserData', function(req, res, next){
 		res.json({'failure':"noToken"});
 	}else{
 		Account.findOne(
-			{token: req.query.token},
+			{token: req.query.token}, //this is the droid we're looking for
 			function (err, doc){
 				if(doc == null){
 					res.json({failure:"badToken"});
@@ -30,30 +30,24 @@ router.get('/getUserData', function(req, res, next){
 router.post('/register', function(req, res, next){
 	//The user posted: username, email, password, password2
 
-	if(req.body.password != req.body.password2){
-		res.json(
-			{failure:'passwordMatch'}
-		);
-	}else{
-		var token = randtoken.generate(32);
-		var newAccount = new Account({
-			username: req.body.username,
-			password: bcrypt.hashSync(req.body.password),
-			emailAddress: req.body.email,
-			token: token,
-			popeye: "HAHAHAHAHA" // This will be ignored
-		});
-		newAccount.save();
-		res.json({
-			success: "added",
-			token: token
-		});
-	}
+	var token = randtoken.generate(32);
+	var newAccount = new Account({
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password),
+		emailAddress: req.body.email,
+		token: token,
+		popeye: "HAHAHAHAHA" // This will be ignored
+	});
+	newAccount.save();
+	res.json({
+		success: "added",
+		token: token
+	});
 });
 
 router.post('/login', function(req, res, next){
 	Account.findOne(
-		{username: req.body.username},
+		{username: req.body.username}, //this is the droid we're looking for
 		function (err, doc){
 			//doc is the document returned from our Mongo query. It has a property for each field.
 			//We need to check the password in the db (doc.password) against the submitted password through bcrypt
@@ -62,7 +56,7 @@ router.post('/login', function(req, res, next){
 			}else{
 				var loginResult = bcrypt.compareSync(req.body.password, doc.password);
 				if(loginResult){
-					//Hashes matched. Set up req.session.username and move them on
+					//Hashes matched. Return token and move them on
 					res.json({
 						success: 'found',
 						token: doc.token
@@ -79,7 +73,7 @@ router.post('/login', function(req, res, next){
 
 router.post('/options', function(req, res, next){
 	Account.update(
-		{token: req.body.token}, //which doc to update
+		{token: req.body.token}, //This is the droid I'm looking for
 		{
 			quantity: req.body.quantity, // what to update
 			frequency: req.body.frequency.option, // what to update -- include option because ng-option packags it thus
